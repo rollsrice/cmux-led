@@ -56,12 +56,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func resizeWindow(forTabCount count: Int) {
-        // slot = LED (22pt) + spacing (8pt) = 30pt. Trailing slot drops the spacing -> +22.
+        // Layout: N LEDs (22pt each) + emoji slot (40pt) + trailing empty slot (30pt) + 8pt gaps.
         // Padding: 12pt inner each side + 8pt outer shadow gutter each side = 40pt.
-        let slot: CGFloat = 30
+        let ledSlot: CGFloat = 30   // 22 + 8 spacing
+        let emojiSlot: CGFloat = 48 // 40 + 8 spacing
+        let trailingEmpty: CGFloat = 30
         let padding: CGFloat = 40
-        let computed = CGFloat(count + 2) * slot - 8 + padding
-        let width: CGFloat = max(180, computed)
+        let computed = CGFloat(count) * ledSlot - 8 + emojiSlot + trailingEmpty + padding
+        let width: CGFloat = max(200, computed)
         let height: CGFloat = 56
         let frame = window.frame
         let newOrigin = NSPoint(x: frame.origin.x, y: frame.origin.y + (frame.height - height))

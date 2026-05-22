@@ -18,6 +18,9 @@ mkdir -p "$APP_PATH/Contents/MacOS" "$APP_PATH/Contents/Resources"
 cp ".build/release/$APP_NAME" "$APP_PATH/Contents/MacOS/$APP_NAME"
 chmod +x "$APP_PATH/Contents/MacOS/$APP_NAME"
 
+echo "==> copying assets"
+cp assets/*.svg "$APP_PATH/Contents/Resources/"
+
 echo "==> generating icon"
 ICONSET_DIR="$BUILD_DIR/AppIcon.iconset"
 rm -rf "$ICONSET_DIR"

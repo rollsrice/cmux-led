@@ -1,6 +1,23 @@
 import SwiftUI
+import AppKit
 
 private let cornerR: CGFloat = 14
+
+enum BarPattern {
+    case empty
+    case allBusy
+    case allIdle
+    case mixed
+
+    static func from(_ panels: [PanelState]) -> BarPattern {
+        if panels.isEmpty { return .empty }
+        let busy = panels.contains(where: { $0.isBusy })
+        let idle = panels.contains(where: { !$0.isBusy })
+        if busy && idle { return .mixed }
+        if busy { return .allBusy }
+        return .allIdle
+    }
+}
 
 struct ContentView: View {
     @ObservedObject var monitor: CmuxMonitor
@@ -25,6 +42,7 @@ struct ContentView: View {
                         onSelect(p.index)
                     }
                 }
+                PatternEmoji(pattern: BarPattern.from(monitor.panels))
             }
             Spacer(minLength: 0)
         }
@@ -41,6 +59,43 @@ struct ContentView: View {
             Toggle("Always on top", isOn: $alwaysOnTop)
             Divider()
             Button("Quit") { NSApplication.shared.terminate(nil) }
+        }
+    }
+}
+
+struct PatternEmoji: View {
+    let pattern: BarPattern
+
+    var body: some View {
+        Group {
+            switch pattern {
+            case .allBusy:
+                AssetImage(name: "chili-calyx", size: CGSize(width: 32, height: 28))
+            case .mixed:
+                AssetImage(name: "tree-top-star", size: CGSize(width: 40, height: 28))
+            case .allIdle, .empty:
+                EmptyView()
+            }
+        }
+        .transition(.opacity)
+        .animation(.easeInOut(duration: 0.2), value: pattern)
+    }
+}
+
+struct AssetImage: View {
+    let name: String
+    let size: CGSize
+
+    var body: some View {
+        if let url = Bundle.main.url(forResource: name, withExtension: "svg"),
+           let img = NSImage(contentsOf: url) {
+            Image(nsImage: img)
+                .resizable()
+                .interpolation(.high)
+                .scaledToFit()
+                .frame(width: size.width, height: size.height)
+        } else {
+            Color.clear.frame(width: size.width, height: size.height)
         }
     }
 }
