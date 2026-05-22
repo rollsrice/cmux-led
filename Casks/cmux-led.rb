@@ -1,6 +1,6 @@
 cask "cmux-led" do
-  version "0.1.3"
-  sha256 "6a144953b180c37d64c0efb0da4ddbff2ab4b6523ddc4e81d3e5fbc62c8d2bbb"
+  version "0.1.4"
+  sha256 "23c755cfcf63c96d933d15f9411b0e5ed7ec492808bc9013ba3fe2229b306d57"
 
   url "https://github.com/rollsrice/homebrew-cmux-led/releases/download/v#{version}/cmux-led.zip"
   name "cmux LED"
@@ -14,6 +14,12 @@ cask "cmux-led" do
   postflight do
     require "json"
     require "fileutils"
+
+    system_command(
+      "/usr/bin/xattr",
+      args: ["-dr", "com.apple.quarantine", "#{appdir}/cmux-led.app"],
+      must_succeed: false,
+    )
 
     intro = <<~MSG.chomp
       cmux-led needs cmux to allow external socket control. This edits ~/.config/cmux/cmux.json (a timestamped backup is written next to it).

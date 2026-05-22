@@ -18,6 +18,13 @@ mkdir -p "$APP_PATH/Contents/MacOS" "$APP_PATH/Contents/Resources"
 cp ".build/release/$APP_NAME" "$APP_PATH/Contents/MacOS/$APP_NAME"
 chmod +x "$APP_PATH/Contents/MacOS/$APP_NAME"
 
+echo "==> generating icon"
+ICONSET_DIR="$BUILD_DIR/AppIcon.iconset"
+rm -rf "$ICONSET_DIR"
+swift tools/make-icon.swift "$ICONSET_DIR"
+iconutil -c icns "$ICONSET_DIR" -o "$BUILD_DIR/AppIcon.icns"
+cp "$BUILD_DIR/AppIcon.icns" "$APP_PATH/Contents/Resources/AppIcon.icns"
+
 cat > "$APP_PATH/Contents/Info.plist" <<PLIST
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -29,6 +36,7 @@ cat > "$APP_PATH/Contents/Info.plist" <<PLIST
   <key>CFBundleVersion</key><string>1</string>
   <key>CFBundleShortVersionString</key><string>$VERSION</string>
   <key>CFBundleExecutable</key><string>$APP_NAME</string>
+  <key>CFBundleIconFile</key><string>AppIcon</string>
   <key>CFBundlePackageType</key><string>APPL</string>
   <key>LSMinimumSystemVersion</key><string>13.0</string>
   <key>LSUIElement</key><true/>
