@@ -21,16 +21,19 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         ).environmentObject(state)
 
         window = NSWindow(
-            contentRect: NSRect(x: 200, y: 200, width: 260, height: 38),
+            contentRect: NSRect(x: 200, y: 200, width: 280, height: 56),
             styleMask: [.borderless, .resizable, .fullSizeContentView],
             backing: .buffered,
             defer: false
         )
         window.isOpaque = false
         window.backgroundColor = .clear
-        window.hasShadow = true
+        window.hasShadow = false
         window.isMovableByWindowBackground = true
-        window.contentView = NSHostingView(rootView: content)
+        let host = NSHostingView(rootView: content)
+        host.wantsLayer = true
+        host.layer?.backgroundColor = NSColor.clear.cgColor
+        window.contentView = host
         window.collectionBehavior = [.canJoinAllSpaces, .stationary, .fullScreenAuxiliary, .ignoresCycle]
         window.makeKeyAndOrderFront(nil)
 

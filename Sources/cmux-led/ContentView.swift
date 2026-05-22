@@ -30,12 +30,13 @@ struct ContentView: View {
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 8)
-        .background(WindowBackground())
-        .clipShape(RoundedRectangle(cornerRadius: cornerR))
+        .background(RoundedVisualEffect(cornerRadius: cornerR))
         .overlay(
             RoundedRectangle(cornerRadius: cornerR)
-                .stroke(Color.white.opacity(0.08), lineWidth: 1)
+                .stroke(Color.white.opacity(0.12), lineWidth: 1)
         )
+        .shadow(color: Color.black.opacity(0.35), radius: 8, x: 0, y: 2)
+        .padding(8)
         .contextMenu {
             Toggle("Always on top", isOn: $alwaysOnTop)
             Divider()
@@ -72,14 +73,24 @@ struct LEDDot: View {
     }
 }
 
-struct WindowBackground: NSViewRepresentable {
-    func makeNSView(context: Context) -> NSView {
+struct RoundedVisualEffect: NSViewRepresentable {
+    let cornerRadius: CGFloat
+
+    func makeNSView(context: Context) -> NSVisualEffectView {
         let v = NSVisualEffectView()
         v.material = .hudWindow
         v.blendingMode = .behindWindow
         v.state = .active
         v.wantsLayer = true
+        v.layer?.cornerRadius = cornerRadius
+        v.layer?.cornerCurve = .continuous
+        v.layer?.masksToBounds = true
         return v
     }
-    func updateNSView(_ nsView: NSView, context: Context) {}
+
+    func updateNSView(_ nsView: NSVisualEffectView, context: Context) {
+        nsView.layer?.cornerRadius = cornerRadius
+        nsView.layer?.cornerCurve = .continuous
+        nsView.layer?.masksToBounds = true
+    }
 }
