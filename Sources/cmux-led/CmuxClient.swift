@@ -1,3 +1,4 @@
+import AppKit
 import Foundation
 
 struct Surface: Equatable {
@@ -106,7 +107,13 @@ enum CmuxClient {
 
     static func focusSurface(workspaceRef: String, surfaceRef: String) {
         DispatchQueue.global().async {
-            _ = runText(["tab-action", "--action", "focus", "--surface", surfaceRef, "--workspace", workspaceRef, "--focus", "true"], timeout: 1.0)
+            _ = runText(["focus-panel", "--panel", surfaceRef, "--workspace", workspaceRef], timeout: 1.0)
+            DispatchQueue.main.async {
+                NSRunningApplication
+                    .runningApplications(withBundleIdentifier: "com.cmuxterm.app")
+                    .first?
+                    .activate(options: [.activateAllWindows])
+            }
         }
     }
 
