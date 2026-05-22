@@ -21,10 +21,6 @@ brew install --cask cmux-led
 
 > Security: `allowAll` lets any local process drive cmux (read panes, inject keystrokes). Don't enable on shared machines.
 
-## How it knows busy vs idle
-
-cmux animates the tab title with a Braille spinner (`⠂⠐⠠⠐`) while the foreground process is working. cmux-led reads tab titles via `cmux list-pane-surfaces` and checks the first glyph. No screen scraping, no AppleScript.
-
 ## Build
 
 ```bash
