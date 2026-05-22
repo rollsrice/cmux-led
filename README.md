@@ -1,5 +1,7 @@
 # cmux-led
 
+![cmux-led overlay showing one green idle LED and one red busy LED with white focus ring](docs/screenshot.png)
+
 Floating macOS overlay. One LED per tab in your current [cmux](https://cmux.com) workspace.
 
 - 🟢 idle — Claude waiting on you
