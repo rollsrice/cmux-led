@@ -1,6 +1,6 @@
 cask "cmux-led" do
-  version "0.1.5"
-  sha256 "2068e1e9acc80dd509d28714102294393e20beeb85070c87d8f03166f09c1f3b"
+  version "0.1.6"
+  sha256 "bc6838a101fa8292ab98e3cf4d319af3c7ba09e25a833216900506eab8d56a49"
 
   url "https://github.com/rollsrice/homebrew-cmux-led/releases/download/v#{version}/cmux-led.zip"
   name "cmux LED"
