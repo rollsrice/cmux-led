@@ -14,19 +14,22 @@ Floating macOS overlay. One LED per tab in your current [cmux](https://cmux.com)
 ```bash
 brew tap rollsrice/cmux-led
 brew install --cask cmux-led
-./setup-cmux.sh && osascript -e 'tell application "cmux" to quit' && open -a cmux
 ```
 
-`setup-cmux.sh` (in this repo) flips `automation.socketControlMode` to `allowAll` in `~/.config/cmux/cmux.json`. Without it cmux refuses external control. Original config is backed up.
+The installer asks once for permission to enable cmux external socket control (`automation.socketControlMode = "allowAll"`). Click **Enable**, then **Restart cmux now** when prompted. Your original cmux config is backed up.
+
+First app launch: right-click → Open (ad-hoc signed; Gatekeeper warns once).
 
 > Security: `allowAll` lets any local process drive cmux (read panes, inject keystrokes). Don't enable on shared machines.
 
-## Build
+## Build from source
 
 ```bash
-swift run                # dev
-VERSION=0.1.0 ./build-app.sh   # release zip + sha256 for cask
+swift run                      # dev launch
+VERSION=0.1.2 ./build-app.sh   # release zip + sha256 for cask
 ```
+
+Source-only install path (no brew): run `./setup-cmux.sh` to flip cmux config, then restart cmux.
 
 ## License
 
